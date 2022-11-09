@@ -1,0 +1,80 @@
+<canvas width="600" height="400"></canvas>
+
+<script type="text/javascript">
+	
+	var tela = document.querySelector("canvas");
+	var pincel = tela.getContext("2d");
+
+	pincel.fillStyle = "lightgrey";
+	pincel.fillRect(0, 0, 600, 400);
+
+	var cores = ["blue", "red", "green"];
+	var indiceCorAtual = 0; //começa com blue
+	var raio = 10;
+
+	function desenhaCirculo(evento) {
+
+		var x = evento.pageX - tela.offsetLeft;
+		var y = evento.pageY - tela.offsetTop;
+
+		if(evento.shiftKey && evento.altKey) { // pergunta se a tecla shif está sendo PRESSIONADA, se estiver sendo PRESSIONADA retorna true, caso não estiver sendo PRESSIONADA ela retorna false.
+			alert("Pressione uma tecla por vez, por favor!");
+
+		}
+
+		else if(evento.shiftKey && raio + 10 <= 40) { // O ELSE IF / ELSE SÓ IRÃO EXECUTAR CASO NENHUMAS DAS OPÇÕES ANTERIORES FOREM VERDADEIRAS, OU SEJA, SÓ PODE SER REALIZADA 1 CONDIÇÃO AO MESMO TEMPO. CASO EU UTILIZE SO IF'S EU POSSO TER VARIAS CONDIÇÕES SENDO EXECUTADAS AO MESMO TEMPO.
+
+			raio = raio + 10;
+
+		}
+
+		else if(evento.altKey && raio - 5 >= 10) {
+
+			raio = raio - 5;
+
+		}
+
+		console.log(raio);
+
+		pincel.fillStyle = cores[indiceCorAtual];
+		pincel.beginPath();
+		pincel.arc(x , y, raio, 0, 2*Math.PI);
+		pincel.fill();
+		console.log(x + " , " + y);
+		console.log(evento);
+
+	}
+
+	tela.onmousemove = desenhaCirculo;
+
+	/*
+
+	tela.addEventListener("contextmenu", function(evento){
+
+		var cores = ["blue", "red", "green"];
+		evento.preventDefault(); // posso utilizar dessa forma para tirar o comportamento padrão do click do botão direto do mouse que exibe o menu para o usuário ou usar a criação de uma função que retorna false para não aparecer esse menu para o mesmo. exemplo:
+		indiceCorAtual++;
+		if(indiceCorAtual >= cores.length) {
+
+			indiceCorAtual = 0; // volta para a primeira cor (azul).
+
+		}
+		
+	});
+
+	*/
+
+	function mudaCor() {
+
+	    indiceCorAtual++;
+	    if(indiceCorAtual >= cores.length) {
+	      indiceCorAtual = 0; // volta para a primeira cor, azul
+	    }
+	    return false; //tira o compormento padrão do botão direito, que no caso, é aparecer o menu para o usuário
+
+   	}
+
+   	tela.oncontextmenu = mudaCor;
+
+
+</script>
